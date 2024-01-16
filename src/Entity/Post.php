@@ -40,7 +40,7 @@ class Post
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updated_at = null;
 
-    #[ORM\OneToMany(inversedBy: 'posts')]
+    #[ORM\ManyToOne(inversedBy: 'posts')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
@@ -52,7 +52,7 @@ class Post
 
     public function __construct()
     {
-        $this->author = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -89,9 +89,9 @@ class Post
         return $this->extract;
     }
 
-    public function setExtract(string $extract): static
+    public function setExtract(?string $extract): static
     {
-        $this->slug = $extract;
+        $this->extract = $extract;
 
         return $this;
     }
@@ -101,7 +101,7 @@ class Post
         return $this->content;
     }
 
-    public function setContent(string $content): static
+    public function setContent(?string $content): static
     {
         $this->content = $content;
 
@@ -113,7 +113,7 @@ class Post
         return $this->image;
     }
 
-    public function setImage(string $image): static
+    public function setImage(?string $image): static
     {
         $this->image = $image;
 
@@ -132,33 +132,28 @@ class Post
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTime
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTime $created_at): static
+    public function setCreatedAt(\DateTimeInterface $created_at): static
     {
         $this->created_at = $created_at;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTime
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(?\DateTime $updated_at): static
+    public function setUpdatedAt(\DateTimeInterface $updated_at): static
     {
         $this->updated_at = $updated_at;
 
         return $this;
-    }
-
-    public function getCategory(): ?Category
-    {
-        return $this->category;
     }
 
     public function getAuthor(): ?User
@@ -173,9 +168,14 @@ class Post
         return $this;
     }
 
-    public function setCategory(?Category $Category): static
+    public function getCategory(): ?Category
     {
-        $this->category = $Category;
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }

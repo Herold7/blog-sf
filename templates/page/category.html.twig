@@ -1,10 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PageController!{% endblock %}
+{% block title %}
+    {{ category.name }}
+{% endblock %}
 
 {% block body %}
 
-<h1>{{ title }}</h1>
-{{ dump(posts) }}
+    <h1>{{ category.name }}</h1>
+
+    <ul>
+        <li>
+            <a href={{ path('category_new') }}>
+                Ajouter
+            </a>
+        </li>
+        <li>
+            <a href={{ path('category_edit', {'category': category.name} ) }}>
+                Modifier
+            </a>
+        </li>
+        <li>
+            <a href={{ path('category_edit', {'category': category.name} ) }}>
+                Supprimer
+            </a>
+        </li>
+    </ul>
+    {{ dump(posts) }}
 
 {% endblock %}

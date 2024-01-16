@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PageController!{% endblock %}
+
+{% block body %}
+
+{% for item in categories %}
+    <a href={{ path('category', {category: item.name}) }}>{{ item.name }}</a>
+{% endfor %}
+
+{{ dump(post) }}
+
+{% endblock %}

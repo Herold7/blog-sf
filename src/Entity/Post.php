@@ -40,7 +40,7 @@ class Post
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updated_at = null;
 
-    #[ORM\OneToMany(inversedBy: 'post')]
+    #[ORM\OneToMany(inversedBy: 'posts')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
@@ -159,6 +159,18 @@ class Post
     public function getCategory(): ?Category
     {
         return $this->category;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $Author): static
+    {
+        $this->author = $Author;
+
+        return $this;
     }
 
     public function setCategory(?Category $Category): static

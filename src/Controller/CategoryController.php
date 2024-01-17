@@ -3,22 +3,25 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class CategoryController extends AbstractController
 {
-    #[Route('/{category}/new', name: 'category_edit')]
-    public function index(
+    #[Route('/{category}/edit', name: 'category_edit')]
+    public function edit(
         // Inject the request object to get the category name
         Request $request,
         // Inject the category repository to find the category
         CategoryRepository $categoryRepository,
         // Inject the post repository to find all posts in the category
+        EntityManagerInterface $em,
     ): Response
     {
         // Find the category by its name
@@ -26,12 +29,43 @@ class CategoryController extends AbstractController
             'name' => $request->get('category')
         ]);
 
-        // TODO Add the form here
+        // TODO Add the form here, then Edit form + process
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) 
+        {if ($form->get('image')->getData()) {
+            $imageFile = $form->get('image')->getData();
+            $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $newFilename = $originalFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+            try {
+                $imageFile->move(
+                    $this->getParameter('uploads_directory'),
+                    $newFilename
+                );
+                $category->setImage($newFilename);
+            } catch (FileException $e) {
+                $this->addFlash('danger', 'Une erreur est survenue lors de l\'upload de votre image');
+            }
+        }
+            $category->setName($form->get('name')->getData());
+            $em->persist($category);
+            $em->flush();
+
+            // Redirect to the category page
+            return $this->redirectToRoute('category', [
+                'category' => $category->getName()
+                ]);
+        }
+
+
 
         // Return the view
-        return $this->render('category/index.html.twig', [
+        return $this->render('category/edit.html.twig', [
             // Pass the category object to the view
             'category' => $category,
+            'editForm' => $form
         ]);
     }
 

@@ -5,31 +5,40 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Repository\PostRepository;
 use App\Repository\CategoryRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PageController extends AbstractController
 {
     #[Route('/', name: 'home', methods: ['GET'])]
     public function index(
+        Request $request,
         // Inject the post repository to find all posts
         PostRepository $postRepository,
         // Inject the category repository to find all categories
-        CategoryRepository $categoryRepository
+        CategoryRepository $categoryRepository,
+        PaginatorInterface $paginator
     ): Response {
         // Return the view
+        $posts = $paginator->paginate(
+        $postRepository->findAll(),
+        $request->query->getInt('page', 1),
+        10
+        );
         return $this->render('page/home.html.twig', [
-            // Pass the page title to the view
-            'posts' => $postRepository->findAll(),
-            // Pass all categories to the view
+            // Pass the category object to the view
+            'posts' => $posts,
+            // Pass all posts in the category to the view
             'categories' => $categoryRepository->findAll()
         ]);
     }
 
     // Route for displaying a single category wi
-    #[Route('/{category}', name: 'category')]
+    #[Route('/{category}', name: 'category', methods: ['GET'])]
     public function category(
         // Inject the request object to get the category name
         Request $request,

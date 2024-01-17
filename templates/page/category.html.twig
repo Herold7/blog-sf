@@ -8,23 +8,19 @@
 
 	<h1>{{ category.name }}</h1>
 
-	<ul>
-		<li>
-			<a href={{ path('category_new') }}>
-				Ajouter
-			</a>
-		</li>
-		<li>
-			<a href={{ path('category_edit', {'category': category.name} ) }}>
-				Modifier
-			</a>
-		</li>
-		<li>
-			<a href={{ path('category_edit', {'category': category.name} ) }}>
-				Supprimer
-			</a>
-		</li>
-	</ul>
-	{{ dump(posts) }}
 
+	<a href={{ path('category_new') }}>Ajouter</a>
+	<a href={{ path('category_edit', {'category': category.name} ) }}>Modifier</a>
+	<a href={{ path('category_edit', {'category': category.name} ) }}>Supprimer</a>
+	
+	<hr>
+
+	{% for item in posts %}
+		<h6>{{ item.title }}</h6>
+		<p>{{ item.createdAt|date('d/m/Y') }}</p>
+		{# Cette route est un exemple "home" n'est pas censer rediriger vers post #}
+		<a href={{ path('home', {'id': item.id})}}>Voir</a>
+		<hr>
+	{% endfor %}
+	
 {% endblock %}

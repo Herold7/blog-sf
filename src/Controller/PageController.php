@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PageController extends AbstractController
 {
-    #[Route('/', name: 'home')]
+    #[Route('/', name: 'home', methods: ['GET'])]
     public function index(
         // Inject the post repository to find all posts
         PostRepository $postRepository,
@@ -44,7 +44,7 @@ class PageController extends AbstractController
         ]);
         // Return the view
         return $this->render('page/category.html.twig', [
-            // Pass the category name to the view
+            // Pass the category object to the view
             'category' => $category,
             // Pass all posts in the category to the view
             'posts' => $postRepository->findBy(

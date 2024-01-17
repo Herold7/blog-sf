@@ -25,9 +25,9 @@ class PageController extends AbstractController
     ): Response {
         // Return the view
         $posts = $paginator->paginate(
-        $postRepository->findAll(),
-        $request->query->getInt('page', 1),
-        10
+        $postRepository->findAll(), // Request
+        $request->query->getInt('page', 1), // Page number
+        9 // Limit per page
         );
         return $this->render('page/home.html.twig', [
             // Pass the category object to the view

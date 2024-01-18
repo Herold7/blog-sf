@@ -19,15 +19,13 @@
 			<div class="col-sm-3 bg-light rounded-4 p-3 shadow-sm">
 				<img src={{ item.image }} class="img-fluid rounded-3">
 				<h5 class="border-bottom p-3">{{ item.title }}</h5>
+                <p class="border-bottom p-3">>{{item.extract}}</p>
                 <p class="border-bottom p-3">>{{item.content}}</p>
-                <h6>{{item.author_id}} 
+                <h6>{{item.author_id}}</h6> 
 				<p>Publié le
 					{{ item.createdAt|date("j F Y", "Europe/Paris") }}</p>
-				{# Cette route est un exemple "home" n'est pas censer rediriger vers post #}
-				<a href={{ path('home', {'id': item.id} )}} class="btn btn-dark">
-					Voir
-				</a>
-
+				<p>mise à jour le
+					{{ item.updateddAt|date("j F Y", "Europe/Paris") }}</p>
 			</div>
 </div>
 {% endblock %}

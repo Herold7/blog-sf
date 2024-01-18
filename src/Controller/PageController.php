@@ -74,11 +74,12 @@ class PageController extends AbstractController
         // Find the post by its post
         $post = $postRepository->findOneBy([
             'slug' => $request->get('post')
-        ]); {
-            return $this->render('post/index.html.twig', [
+        ]); 
+        
+            return $this->render('page/post.html.twig', [
                 'post' => $post,
             ]);
-        }
+
     }
 
 }

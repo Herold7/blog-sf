@@ -27,7 +27,7 @@ class PageController extends AbstractController
         $posts = $paginator->paginate(
         $postRepository->findAll(), // Request
         $request->query->getInt('page', 1), // Page number
-        9 // Limit per page
+         // Limit per page
         );
         return $this->render('page/home.html.twig', [
             // Pass the category object to the view
@@ -51,6 +51,7 @@ class PageController extends AbstractController
         $category = $categoryRepository->findOneBy([
             'name' => $request->get('category')
         ]);
+        
         // Return the view
         return $this->render('page/category.html.twig', [
             // Pass the category object to the view
@@ -63,4 +64,21 @@ class PageController extends AbstractController
             )
         ]);
     }
+    #[Route('/{post}', name: 'post', methods: ['GET'])]
+    public function post(
+        // Inject the request object to get the post post
+        Request $request,
+        // Inject the post repository to find all posts
+        PostRepository $postRepository,
+    ): Response {
+        // Find the post by its post
+        $post = $postRepository->findOneBy([
+            'slug' => $request->get('post')
+        ]); {
+            return $this->render('post/index.html.twig', [
+                'post' => $post,
+            ]);
+        }
+    }
+
 }

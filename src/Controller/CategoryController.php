@@ -44,6 +44,7 @@ class CategoryController extends AbstractController
             }
 
             $category->setName($form->get('name')->getData());
+            
             $em->persist($category);
             $em->flush();
 

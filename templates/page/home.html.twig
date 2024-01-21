@@ -7,7 +7,7 @@
 
 	<div class="d-flex gap-2 justify-content-center py-3">
 		{% for item in categories %}
-			<a href={{ path('category', {category: item.name} ) }} class="btn btn-sm btn-dark">
+			<a href={{ path('category', {category: item.name} ) }} class="btn btn-dark">
                 {{ item.name }}
             </a>
 		{% endfor %}
@@ -23,7 +23,7 @@
 				<p>Publié le
 					{{ item.createdAt|date("j F Y", "Europe/Paris") }}</p>
 				{# Cette route est un exemple "home" n'est pas censer rediriger vers post #}
-				<a href={{ path('post', {'id': item.slug} )}} class="btn btn-dark">
+				<a href={{ path('post', {slug: item.slug} )}} class="btn btn-dark">
 					Voir <i class="bi bi-arrow-right-circle"></i>
 				</a>
 

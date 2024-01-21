@@ -5,9 +5,12 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Modifier l'article' : {{ post.title }}</h1>
-    <img src="{{ asset('/uploads/') }}{{ post.image }}" width="50">
-    <br>
-    {{ form(editForm) }}
+	<h1 class="text-center mt-5">Modifier l'article :
+		{{ post.title }}
+	</h1>
+
+	<div class="container d-flex justify-content-center mt-5">
+		{{ form(editForm) }}
+		</div>
     
 {% endblock %}

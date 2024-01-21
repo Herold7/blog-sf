@@ -5,27 +5,27 @@
 {% endblock %}
 
 {% block body %}
-<div class="d-flex gap-2 justify-content-center py-3">
-		<h1>{{ post.title }}</h1>
+<div class="container">
+		<h1 class="text-center mt-5">{{ post.title }}</h1>
+		<img class="my-5" src="{{ post.image }}" alt="Post image">
+
+		<p class="lead text-center">{{ post.content }}</p>
+
+		<p class="text-muted mt-4">
+			Publié le
+			{{ post.createdAt|date('d/m/Y') }}
+			par
+			{{ post.author.nickname }}
+		</p>
 	</div>
 	<div class="d-flex gap-2 justify-content-center pb-3">
-		<a href={{ path('post_new') }} class="btn btn-sm btn-primary">Ajouter</a>
-		<a href={{ path('post_edit', {'post': post.slug} ) }} class="btn btn-sm btn-dark">Modifier</a>
-		<a href={{ path('post_edit', {'post': post.slug} ) }} class="btn btn-sm btn-danger">Supprimer</a>
+		<a href={{ path('post_new') }} class="btn btn-primary">Ajouter</a>
+		<a href={{ path('post_edit', {'slug': post.slug}) }} class="btn btn-success">Modifier</a>
+		<a href={{ path('home') }} class="btn btn-dark">Retour</a>
+
 	</div>
 
-<div class="row gap-3 justify-content-center">
-		{% for item in posts %}
-			<div class="col-sm-3 bg-light rounded-4 p-3 shadow-sm">
-				<img src={{ item.image }} class="img-fluid rounded-3">
-				<h5 class="border-bottom p-3">{{ item.title }}</h5>
-                <p class="border-bottom p-3">>{{item.extract}}</p>
-                <p class="border-bottom p-3">>{{item.content}}</p>
-                <h6>{{item.author_id}}</h6> 
-				<p>Publié le
-					{{ item.createdAt|date("j F Y", "Europe/Paris") }}</p>
-				<p>mise à jour le
-					{{ item.updateddAt|date("j F Y", "Europe/Paris") }}</p>
-			</div>
-</div>
+
+
+
 {% endblock %}

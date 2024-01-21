@@ -35,11 +35,11 @@ class PostType extends AbstractType
             ->add('updated_at', DateType::class)
             ->add('author', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => 'name',
+                'choice_label' => 'id',
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'name',
+                'choice_label' => 'id',
             ])
             ->add('Enregistrer', SubmitType::class);
     }

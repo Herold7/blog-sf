@@ -10,9 +10,9 @@
 		<h1>{{ category.name }}</h1>
 	</div>
 	<div class="d-flex gap-2 justify-content-center pb-3">
-		<a href={{ path('category_new') }} class="btn btn-sm btn-primary">Ajouter</a>
-		<a href={{ path('category_edit', {'category': category.name} ) }} class="btn btn-sm btn-dark">Modifier</a>
-		<a href={{ path('category_edit', {'category': category.name} ) }} class="btn btn-sm btn-danger">Supprimer</a>
+		<a href={{ path('category_new') }} class="btn btn-primary">Ajouter</a>
+		<a href={{ path('category_edit', {'category': category.name} ) }} class="btn btn-dark">Modifier</a>
+		<a href={{ path('category_edit', {'category': category.name} ) }} class="btn btn-danger">Supprimer</a>
 	</div>
 
 	<div class="row gap-3 justify-content-center">
@@ -23,7 +23,7 @@
 				<p>Publié le
 					{{ item.createdAt|date("j F Y", "Europe/Paris") }}</p>
 				{# Cette route est un exemple "home" n'est pas censer rediriger vers post #}
-				<a href={{ path('home', {'id': item.id} )}} class="btn btn-dark">
+				<a href={{ path('post', {slug: item.slug} )}} class="btn btn-dark">
 					Voir
 				</a>
 

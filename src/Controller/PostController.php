@@ -13,14 +13,14 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class PostController extends AbstractController
 {
-    #[Route('/{post}/edit', name: 'post-edit')]
+    #[Route('/post/{slug}/edit', name: 'post_edit')]
     public function edit(
         Request $request,
         PostRepository $postRepository,
         EntityManagerInterface $em
     ): Response {
         $post = $postRepository->findOneBy([
-            'slug' => $request->get('post')
+            'slug' => $request->get('slug')
         ]); 
 
         $form = $this->createForm(PostType::class);
@@ -42,14 +42,7 @@ class PostController extends AbstractController
                 }
             }
 
-            $post->setTitle($form->get('title')->getData());
-            $post->setSlug($form->get('slug')->getData());
-            $post->setExtract($form->get('extract')->getData());
-            $post->setContent($form->get('content')->getData());
-            $post->setIsPublished($form->get('isPublished')->getData());
-            $post->setUpdatedAt($form->get('updated_at')->getData());
-            $post->setAuthor($form->get('author')->getData());
-            $post->setCategory($form->get('category')->getData());
+            $post = $form->getData();
             
             $em->persist($post);
             $em->flush();

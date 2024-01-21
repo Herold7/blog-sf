@@ -64,22 +64,20 @@ class PageController extends AbstractController
             )
         ]);
     }
-    #[Route('/{post}', name: 'post', methods: ['GET'])]
+    #[Route('/posts/{slug}', name: 'post', methods: ['GET'])]
     public function post(
-        // Inject the request object to get the post post
+        // Inject the request object to get the category name
         Request $request,
-        // Inject the post repository to find all posts
+        // Inject the post repository to find all posts in the category
         PostRepository $postRepository,
     ): Response {
-        // Find the post by its post
+        // Find the post by its slug
         $post = $postRepository->findOneBy([
-            'slug' => $request->get('post')
-        ]); 
-        
-            return $this->render('page/post.html.twig', [
-                'post' => $post,
-            ]);
+            'slug' => $request->get('slug')
+        ]);
 
+        return $this->render('page/post.html.twig', [
+            'post' => $post,
+        ]);
     }
-
 }
